@@ -1,7 +1,7 @@
 ## VIPROPS
-### Real Estate - Marketplace
+#### Full-stack MERN App: VIPROPS - Real Estate Marketplace
 
-##### Tech Stack: 
+**Tech Stack:**
 - MERN
 - TS (client) + JS (server)
 - Shadcn ui
