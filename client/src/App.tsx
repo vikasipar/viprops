@@ -5,6 +5,7 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Header from './components/layout/Header';
+import { Toaster } from "@/components/ui/sonner"
 
 export default function App() {
   return(
@@ -17,5 +18,6 @@ export default function App() {
         <Route path='/about' element={<About/>} />
         <Route path='/profile' element={<Profile/>} />
       </Routes>
+      <Toaster />
     </BrowserRouter>
 )}
