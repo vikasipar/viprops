@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,6 +31,7 @@ const SignupSchema = z.object({
 type SignupFormData = z.infer<typeof SignupSchema>;
 
 export default function Signup() {
+  const [error, setError] = useState<string>();
   const navigate = useNavigate();
   const form = useForm<SignupFormData>({
     resolver: zodResolver(SignupSchema),
@@ -53,12 +55,12 @@ export default function Signup() {
       console.log("Response: " + serverResponse.success);
 
       if (serverResponse.success === false) {
+        setError(serverResponse.message);
         toast("Sign Up Failed!");
       } else {
         toast(serverResponse);
         navigate("/login");
       }
-
     } catch (error: any) {
       console.log(`Error: ${error.message}`);
     }
@@ -122,8 +124,9 @@ export default function Signup() {
           </form>
         </Form>
         <p className="mt-8 text-sm text-stone-500">
-          Already have an account? <Link to="/login">login</Link>.
+          Already have an account? <Link to="/auth/login">login</Link>.
         </p>
+        {error && <p className="text-red-500 font-medium mt-2">{error}</p>}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
@@ -8,9 +9,9 @@ export default function Header() {
             <input type="text" placeholder='Search...' className='w-full bg-transparent outline-none' />
         </form>
         <ul className='flex md:space-x-12 md:font-medium items-center'>
-            <li className='hidden md:inline text-slate-600 hover:cursor-pointer hover:text-slate-900'>Home</li>
-            <li className='hidden md:inline text-slate-600 hover:cursor-pointer hover:text-slate-900'>About</li>
-            <li className='inline text-slate-600 hover:cursor-pointer hover:text-slate-900'>Sign In</li>
+            <Link to="/" className='hidden md:inline text-slate-600 hover:cursor-pointer hover:text-slate-900'>Home</Link>
+            <Link to="/about" className='hidden md:inline text-slate-600 hover:cursor-pointer hover:text-slate-900'>About</Link>
+            <Link to="/auth/login" className='inline text-slate-600 hover:cursor-pointer hover:text-slate-900'>Sign In</Link>
         </ul>
     </header>
   )
