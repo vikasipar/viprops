@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { loginStart, loginSuccess, loginFailure } from "@/redux/user/userSlice";
 import { TbFaceIdError } from "react-icons/tb";
+import Oauth from "@/components/layout/Oauth";
 
 // Define form schema
 const LoginSchema = z.object({
@@ -31,7 +32,7 @@ type LoginFormData = z.infer<typeof LoginSchema>;
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state:any) => state.user);
+  const { loading, error } = useSelector((state: any) => state.user);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
@@ -70,7 +71,7 @@ export default function Login() {
   return (
     <div className="w-full mx-auto min-h-screen flex flex-col items-center justify-center bg-stone-100">
       <div className="border border-stone-200 rounded-md shadow-lg w-[90%] md:w-[50%] lg:w-[38%] px-8 md:px-14 py-6 md:py-12 bg-stone-50">
-        <h1 className="w-full text-left mb-9 text-lg md:text-2xl font-bold">
+        <h1 className="w-full text-center mb-9 text-lg md:text-2xl font-bold">
           Sign In
         </h1>
 
@@ -104,19 +105,29 @@ export default function Login() {
               )}
             />
 
-            <Button type="submit" className="w-full uppercase" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full uppercase"
+              disabled={loading}
+            >
               {loading ? "Loading..." : "Sign In"}
             </Button>
           </form>
         </Form>
-        
+        <Oauth />
         <p className="mt-8 text-sm text-stone-500">
           Don’t have an account?{" "}
           <Link to="/auth/signup" className="text-blue-500">
             Sign up
-          </Link>.
+          </Link>
+          .
         </p>
-        {error && <p className="text-red-500 font-medium mt-2 space-x-2"><TbFaceIdError className="text-3xl inline-block" />  <span>{error}</span></p>}
+        {error && (
+          <p className="text-red-500 font-medium mt-2 space-x-2">
+            <TbFaceIdError className="text-3xl inline-block" />{" "}
+            <span>{error}</span>
+          </p>
+        )}
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { TbFaceIdError } from "react-icons/tb";
+import Oauth from "@/components/layout/Oauth";
 
 // Define form schema
 const SignupSchema = z.object({
@@ -74,7 +75,7 @@ export default function Signup() {
   return (
     <div className="w-full mx-auto min-h-dvh flex flex-col items-center justify-center bg-stone-100">
       <div className="border border-stone-200 rounded-md shadow-lg w-[90%] md:w-[50%] lg:w-[38%] px-8 md:px-14 py-6 md:py-12 bg-stone-50">
-        <h1 className="w-full text-left mb-9 text-lg md:text-2xl font-bold">
+        <h1 className="w-full text-center mb-9 text-lg md:text-2xl font-bold">
           Sign Up
         </h1>
 
@@ -128,10 +129,16 @@ export default function Signup() {
             </Button>
           </form>
         </Form>
+        <Oauth />
         <p className="mt-8 text-sm text-stone-500">
           Already have an account? <Link to="/auth/login">login</Link>.
         </p>
-        {error && <p className="w-full text-red-500 font-medium mt-2 space-x-2"><TbFaceIdError className="text-3xl inline-block" /> <span>{error}</span></p>}
+        {error && (
+          <p className="w-full text-red-500 font-medium mt-2 space-x-2">
+            <TbFaceIdError className="text-3xl inline-block" />{" "}
+            <span>{error}</span>
+          </p>
+        )}
       </div>
     </div>
   );

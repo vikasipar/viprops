@@ -9,4 +9,5 @@
 - JWT
 - Redux-Toolkit (RTK)
 - Redux Persist
-- React-icons
+- Firebase (Google Auth)
+- React Icons

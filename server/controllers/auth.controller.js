@@ -34,3 +34,45 @@ export const login = async (req, res, next) => {
     }
 
 }
+
+
+export const google = async (req, res, next) => {
+    try {
+        // Check if user exists based on email
+        const existingUser = await User.findOne({ email: req.body.email });
+
+        if (existingUser) {
+            // Generate JWT for existing user
+            const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
+            const { password, ...userData } = existingUser._doc;
+            return res
+                .cookie('access_token', token, { httpOnly: true })
+                .status(200)
+                .json(userData);
+        } else {
+            // Generate random password for new user
+            const randomPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            const hashedPassword = bcryptjs.hashSync(randomPassword, 10);
+
+            // Create new user
+            const newUser = new User({
+                username: req.body.username.replace(/\s+/g, "").toLowerCase() + Math.random().toString(36).slice(-4),
+                email: req.body.email,
+                password: hashedPassword,
+                avatar: req.body.photo
+            });
+            await newUser.save();
+
+            // Generate JWT for new user
+            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const { password, ...userData } = newUser._doc;
+
+            return res
+                .cookie('access_token', token, { httpOnly: true })
+                .status(200)
+                .json(userData);
+        }
+    } catch (error) {
+        next(error);
+    }
+};
