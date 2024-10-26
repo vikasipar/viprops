@@ -1,7 +1,6 @@
-<hr/>
 ## VIPROPS
 #### Full-stack MERN App: VIPROPS - Real Estate Marketplace
-<hr/>
+
 **Tech Stack:**
 - MERN
 - TS (client) + JS (server)
@@ -11,5 +10,3 @@
 - JWT
 - Redux-Toolkit (RTK)
 - React-icons
-<hr/>
-<hr/>
