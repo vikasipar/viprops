@@ -13,7 +13,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginStart, loginSuccess, loginFailure } from "@/redux/user/userSlice";
+import { TbFaceIdError } from "react-icons/tb";
 
 // Define form schema
 const LoginSchema = z.object({
@@ -27,8 +29,10 @@ const LoginSchema = z.object({
 type LoginFormData = z.infer<typeof LoginSchema>;
 
 export default function Login() {
-  const [error, setError] = useState<string>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state:any) => state.user);
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -39,6 +43,7 @@ export default function Login() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
+      dispatch(loginStart());
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -49,14 +54,16 @@ export default function Login() {
       const serverResponse = await res.json();
 
       if (serverResponse.success === false) {
-        setError(serverResponse.message);
+        dispatch(loginFailure(serverResponse.message));
         toast.error("Login Failed!");
       } else {
+        dispatch(loginSuccess(serverResponse));
         toast.success("Login Successful!");
         navigate("/");
       }
     } catch (error: any) {
       toast.error(`Error: ${error.message}`);
+      dispatch(loginFailure(error.message));
     }
   };
 
@@ -97,19 +104,19 @@ export default function Login() {
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Sign In
+            <Button type="submit" className="w-full uppercase" disabled={loading}>
+              {loading ? "Loading..." : "Sign In"}
             </Button>
           </form>
         </Form>
-        <p className="mt-8 text-xs text-stone-500">
+        
+        <p className="mt-8 text-sm text-stone-500">
           Don’t have an account?{" "}
           <Link to="/auth/signup" className="text-blue-500">
             Sign up
-          </Link>
-          .
+          </Link>.
         </p>
-        {error && <p className="text-red-500 font-medium mt-2">{error}</p>}
+        {error && <p className="text-red-500 font-medium mt-2 space-x-2"><TbFaceIdError className="text-3xl inline-block" />  <span>{error}</span></p>}
       </div>
     </div>
   );

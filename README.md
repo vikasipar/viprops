@@ -9,5 +9,7 @@
 - Zod
 - React Hook Form
 - JWT
+- Redux-Toolkit (RTK)
+- React-icons
 <hr/>
 <hr/>

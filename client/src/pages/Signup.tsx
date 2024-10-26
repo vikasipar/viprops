@@ -15,6 +15,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { TbFaceIdError } from "react-icons/tb";
 
 // Define form schema
 const SignupSchema = z.object({
@@ -32,6 +33,7 @@ type SignupFormData = z.infer<typeof SignupSchema>;
 
 export default function Signup() {
   const [error, setError] = useState<string>();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const form = useForm<SignupFormData>({
     resolver: zodResolver(SignupSchema),
@@ -43,6 +45,7 @@ export default function Signup() {
   });
 
   const onSubmit = async (data: SignupFormData) => {
+    setLoading(true);
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
@@ -63,6 +66,8 @@ export default function Signup() {
       }
     } catch (error: any) {
       console.log(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,14 +124,14 @@ export default function Signup() {
             />
 
             <Button type="submit" className="w-full">
-              Sign up
+              {loading ? "Signing Up..." : "Sign up"}
             </Button>
           </form>
         </Form>
         <p className="mt-8 text-sm text-stone-500">
           Already have an account? <Link to="/auth/login">login</Link>.
         </p>
-        {error && <p className="text-red-500 font-medium mt-2">{error}</p>}
+        {error && <p className="w-full text-red-500 font-medium mt-2 space-x-2"><TbFaceIdError className="text-3xl inline-block" /> <span>{error}</span></p>}
       </div>
     </div>
   );
