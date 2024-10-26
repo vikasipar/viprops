@@ -4,9 +4,9 @@
 **Tech Stack:**
 - MERN
 - TS (client) + JS (server)
-- Shadcn ui
-- Zod
-- React Hook Form
+- Shadcn UI
+- Zod + React Hook Form
 - JWT
 - Redux-Toolkit (RTK)
+- Redux Persist
 - React-icons
