@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginStart, loginSuccess, loginFailure } from "@/redux/user/userSlice";
 import { TbFaceIdError } from "react-icons/tb";
 import Oauth from "@/components/layout/Oauth";
+import { useEffect } from "react";
 
 // Define form schema
 const LoginSchema = z.object({
@@ -32,7 +33,15 @@ type LoginFormData = z.infer<typeof LoginSchema>;
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state: any) => state.user);
+  const { loading, error, currentUser } = useSelector(
+    (state: any) => state.user
+  );
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/profile");
+    }
+  }, [currentUser]);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
@@ -107,7 +116,7 @@ export default function Login() {
 
             <Button
               type="submit"
-              className="w-full uppercase"
+              className="w-full uppercase h-9"
               disabled={loading}
             >
               {loading ? "Loading..." : "Sign In"}

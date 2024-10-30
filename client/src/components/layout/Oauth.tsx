@@ -40,9 +40,9 @@ export default function Oauth() {
     <Button
       variant="secondary"
       onClick={handleGoogleClick}
-      className="w-full mt-2 border border-slate-400 hover:border-slate-500"
+      className="w-full mt-2 border border-slate-400 hover:border-slate-500 flex items-center h-9"
     >
-      Continue with Google
+      <img src="https://th.bing.com/th/id/OIP.syFWPNXywV2gNh7o2uwL6AHaHa?rs=1&pid=ImgDetMain" alt="google logo" className="h-full" /> <span className="text-sm">Continue with Google</span>
     </Button>
   );
 }

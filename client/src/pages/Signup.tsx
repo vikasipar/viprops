@@ -124,7 +124,7 @@ export default function Signup() {
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full h-9">
               {loading ? "Signing Up..." : "Sign up"}
             </Button>
           </form>
